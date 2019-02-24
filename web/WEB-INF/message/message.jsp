@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Message" %>
 <%@ page import="model.User" %><%--
@@ -13,20 +14,17 @@
     <title>Title</title>
 </head>
 <body>
-<%
-    List<Message> messages = (List<Message>) request.getAttribute("allMessage");
-    User user = (User) request.getAttribute("toUser");
-%>
-<%
-    for (Message message : messages) {%>
-<h2>From: <%=message.getFromId().getName()%> To: <%=message.getToId().getName()%>
-</h2>
-<p><%=message.getText()%>
-</p>
-<h5><%=message.getDate()%>
-</h5>
-<%}%>
-<form action="/message?toId=<%=user.getId()%>" method="post">
+
+<c:forEach var="message" items="allMessage">
+    <h2>From: ${message.fromId.name} To: ${message.toId.name}
+    </h2>
+    <p>${message.text}
+    </p>
+    <h5>${message.date}
+    </h5>
+</c:forEach>
+
+<form action="/message?toId=${user.id}" method="post">
     <input type="text" name="message">
     <input type="submit" value="send">
 </form>

@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.User" %><%--
   Created by IntelliJ IDEA.
@@ -12,15 +14,10 @@
     <title>home </title>
 </head>
 <body>
-<%
-    User user = (User) request.getSession().getAttribute("user");
-    List<User> allUsers = (List<User>) request.getAttribute("allUsers");
-    List<User> allFriend = (List<User>) request.getAttribute("allFriend");
-    List<User> allRequest = (List<User>) request.getAttribute("allRequest");
-%>
+
 <div class="profil">
-    <img src="/getImage?picName=<%=user.getPicUrl()%>" width="100"/>
-    <h3><%=user.getName()%> <%=user.getSurname()%>
+    <img src="/getImage?picName=${user.picUrl}" width="100"/>
+    <h3>${user.name} ${user.surname}
     </h3>
     <a href="/logout">Logout</a>
 </div>
@@ -32,18 +29,18 @@
         <td>Picture</td>
         <td>Action</td>
     </tr>
-    <%
-        for (User allUser : allUsers) {%>
-    <tr>
-        <td><%=allUser.getName()%>
-        </td>
-        <td><%=allUser.getSurname()%>
-        </td>
-        <td><img src="/getImage?picName=<%=allUser.getPicUrl()%>" width="100">
-        </td>
-        <td><a href="/sendRequest?toId=<%=allUser.getId()%>">Send</a></td>
-    </tr>
-    <%}%>
+
+    <c:forEach var="allUser" items="${allUsers}">
+        <tr>
+            <td>${allUser.name}
+            </td>
+            <td>${allUser.surname}
+            </td>
+            <td><img src="/getImage?picName=${allUser.picUrl}" width="100">
+            </td>
+            <td><a href="/sendRequest?toId=${allUser.id}">Send</a></td>
+        </tr>
+    </c:forEach>
 </table>
 
 <hr>
@@ -55,21 +52,20 @@
         <td>Picture</td>
         <td>Accept or Reject</td>
     </tr>
-    <%
-        for (User allRequests : allRequest) {%>
+    <c:forEach var="allRequests" items="allRequest">
     <tr>
-        <td><%=allRequests.getName()%>
+        <td>${allRequests.name}
         </td>
-        <td><%=allRequests.getSurname()%>
+        <td>${allRequests.surname}
         </td>
-        <td><img src="/getImage?picName=<%=allRequests.getPicUrl()%>" width="100">
+        <td><img src="/getImage?picName=${allRequests.picUrl}" width="100">
         </td>
         <td>
-            <a href="/acceptOrReject?userId=<%=allRequests.getId()%>&action=accept">Accept</a>
-            <a href="/acceptOrReject?userId=<%=allRequests.getId()%>&action=reject">Reject</a>
+            <a href="/acceptOrReject?userId=${allRequests.id}&action=accept">Accept</a>
+            <a href="/acceptOrReject?userId=${allRequests.id}&action=reject">Reject</a>
         </td>
     </tr>
-    <%}%>
+    </c:forEach>
 </table>
 
 <hr>
@@ -81,21 +77,21 @@
         <td>Picture</td>
         <td>Accept or Reject</td>
     </tr>
-    <%
-        for (User allFriends : allFriend) {%>
+    <c:forEach var="allFriends" items="allFriend">
+
     <tr>
-        <td><%=allFriends.getName()%>
+        <td>${allFriends.name}
         </td>
-        <td><%=allFriends.getSurname()%>
+        <td>${allFriends.surname}
         </td>
-        <td><img src="/getImage?picName=<%=allFriends.getPicUrl()%>" width="100">
+        <td><img src="/getImage?picName=${allFriends.picUrl}" width="100">
         </td>
         <td>
-            <a href="/remove?userId=<%=allFriends.getId()%>">Delete</a>
+            <a href="/remove?userId=${allFriends.id}">Delete</a>
         </td>
-        <td><a href="/toMessagePage?toId=<%=allFriends.getId()%>">message</a></td>
+        <td><a href="/toMessagePage?toId=${allFriends.id}">message</a></td>
     </tr>
-    <%}%>
+    </c:forEach>
 </table>
 </body>
 </html>

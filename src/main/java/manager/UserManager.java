@@ -249,4 +249,28 @@ public class UserManager {
         }
         return false;
     }
+
+    public User updateNameAndSurname(User user) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "UPDATE user SET `name` = '" + user.getName() + "' AND `surname`='" + user.getSurname() + "' WHERE `id`= " + user.getId();
+            statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public User updatePassword(User user) {
+        try {
+            Statement statement = connection.createStatement();
+            String query = "UPDATE user SET `passord` = '" + user.getPassword() + "' WHERE id= " + user.getId();
+            statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
